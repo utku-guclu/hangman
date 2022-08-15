@@ -3,7 +3,7 @@ import React from "react";
 function How() {
   return (
     <div>
-      <h1>ere</h1>
+      <h1>erdssde</h1>
     </div>
   );
 }
