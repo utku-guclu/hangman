@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 
+import data from "../src/data/words.json";
+
 const Context = React.createContext();
 
 function ContextProvider({ children }) {
   const [result, setResult] = useState({ chosenWord: "", winOrLose: "" });
-  const [words, setWords] = useState(["apple", "ball", "orange"]); // set after fetch
-  const [chosenWord, setChosenWord] = useState("word"); //
+  const [words] = useState(data.words);
+  const [chosenWord, setChosenWord] = useState("word");
   const [guesses, setGuesses] = useState([]);
   const [lives, setLives] = useState(7);
   const [guessingWord, setGuessingWord] = useState([]);
@@ -113,6 +115,7 @@ function ContextProvider({ children }) {
     setLives(7);
     setChosenWord(chooseWord(words)); // update after fetch
     setGuessingWord(Array(chosenWord.length).fill("_"));
+    setGuesses([]);
   };
 
   return (

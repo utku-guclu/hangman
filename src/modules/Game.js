@@ -13,7 +13,6 @@ function Game() {
     chosenWord,
     reset,
   } = useContext(Context);
-
   const navigate = useNavigate();
 
   useEffect(() => {
