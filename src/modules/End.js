@@ -3,21 +3,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../Context";
 
 function End() {
-  const {
-    result,
-    setLives,
-    setChosenWord,
-    chooseWord,
-    words,
-    chosenWord,
-    setGuessingWord,
-  } = useContext(Context);
-
-  const reset = () => {
-    setLives(7);
-    setChosenWord(chooseWord(words)); //
-    setGuessingWord(Array(chosenWord.length).fill("_"));
-  };
+  const { result, reset } = useContext(Context);
 
   return (
     <div>
@@ -27,7 +13,7 @@ function End() {
         The word is ✏ {result.chosenWord.toUpperCase()}.
       </p>
       <Link style={{ textDecoration: "none" }} to="/">
-        <button onClick={() => reset()} className="button hangman__trigger">
+        <button onClick={reset} className="button hangman__trigger">
           Main Menu
         </button>
       </Link>

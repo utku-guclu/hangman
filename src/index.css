@@ -31,6 +31,10 @@ body {
   background-color: var(--main-bg-color);
 }
 
+.hangman>div {
+  text-align: center;
+}
+
 .hangman__stats {
   color: lightyellow;
   font-family: var(--font-body-stack);
@@ -121,7 +125,8 @@ body {
   padding: 1rem 1.8rem;
   font-family: var(--font-body-stack);
   color: var(--light-white);
-  text-align: center;
+  text-align: left;
+  display: inline-block;
 }
 
 /* end screen */

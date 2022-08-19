@@ -11,6 +11,7 @@ function Game() {
     guessingWord,
     lives,
     chosenWord,
+    reset,
   } = useContext(Context);
 
   const navigate = useNavigate();
@@ -19,11 +20,8 @@ function Game() {
     const navigateToEnd = () => {
       navigate("/end");
     };
-    if (winState) {
+    if (winState || loseState) {
       // winSound();
-      navigateToEnd();
-    } else if (loseState) {
-      // loseSound();
       navigateToEnd();
     }
   }, [guessingWord, chosenWord, lives, navigate, loseState, winState]);
@@ -42,7 +40,9 @@ function Game() {
       </p>
       <ul className="hangman__letters">{createLetters()}</ul>
       <Link style={{ textDecoration: "none" }} to="/">
-        <button className="button hangman__trigger">Main Menu</button>
+        <button onClick={reset} className="button hangman__trigger">
+          Main Menu
+        </button>
       </Link>
     </div>
   );

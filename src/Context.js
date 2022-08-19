@@ -4,9 +4,9 @@ const Context = React.createContext();
 
 function ContextProvider({ children }) {
   const [result, setResult] = useState({ chosenWord: "", winOrLose: "" });
-  const [words, setWords] = useState(["apple", "ball", "orange"]);
+  const [words, setWords] = useState(["apple", "ball", "orange"]); // set after fetch
   const [chosenWord, setChosenWord] = useState("word"); //
-  const [guesses, setGuessess] = useState([]);
+  const [guesses, setGuesses] = useState([]);
   const [lives, setLives] = useState(7);
   const [guessingWord, setGuessingWord] = useState([]);
 
@@ -78,7 +78,7 @@ function ContextProvider({ children }) {
   };
 
   const check = (guess) => {
-    !isAlreadyTaken(guess) && setGuessess([...guesses, guess]);
+    !isAlreadyTaken(guess) && setGuesses([...guesses, guess]);
     if (chosenWord.includes(guess)) {
       updateGuessingWord(guess);
     } else {
@@ -109,12 +109,20 @@ function ContextProvider({ children }) {
     });
   };
 
+  const reset = () => {
+    setLives(7);
+    setChosenWord(chooseWord(words)); // update after fetch
+    setGuessingWord(Array(chosenWord.length).fill("_"));
+  };
+
   return (
     <Context.Provider
       value={{
         lives,
         setLives,
         guessingWord,
+        guesses,
+        setGuesses,
         createLetters,
         chosenWord,
         chooseWord,
@@ -123,7 +131,9 @@ function ContextProvider({ children }) {
         winState,
         loseState,
         result,
+        setResult,
         words,
+        reset,
       }}
     >
       {children}
