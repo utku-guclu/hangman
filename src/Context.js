@@ -6,11 +6,13 @@ const Context = React.createContext();
 
 function ContextProvider({ children }) {
   const [result, setResult] = useState({ chosenWord: "", winOrLose: "" });
-  const [words] = useState(data.words);
-  const [chosenWord, setChosenWord] = useState("word");
+  const [words, setWords] = useState([...data.words]);
+  const [chosenWord, setChosenWord] = useState([]);
   const [guesses, setGuesses] = useState([]);
   const [lives, setLives] = useState(7);
   const [guessingWord, setGuessingWord] = useState([]);
+
+  const wordAPI = process.env.REACT_APP_WORD_API_KEY;
 
   const letters = [
     "a",
@@ -39,12 +41,28 @@ function ContextProvider({ children }) {
     "x",
     "y",
     "z",
+    "-",
   ];
 
   //
   const winState = chosenWord === guessingWord.join("");
   const loseState = lives < 1;
   //
+
+  const getWord = () => {
+    fetch(`https://api.wordnik.com/v4/words.json/randomWord?api_key=${wordAPI}`)
+      .then((res) => res.json())
+      .then((data) => setWords([...words, data.word]));
+  };
+
+  useEffect(() => {
+    setChosenWord(chooseWord(words));
+  }, [words]);
+
+  const chooseWord = (words) => {
+    const randNum = Math.floor(Math.random() * words.length);
+    return words[randNum];
+  };
 
   useEffect(() => {
     const finalResult = (_) => {
@@ -55,10 +73,6 @@ function ContextProvider({ children }) {
     };
     setResult({ chosenWord, winOrLose: `${finalResult()}` });
   }, [winState, loseState, chosenWord, setResult]);
-
-  useEffect(() => {
-    setChosenWord(chooseWord(words));
-  }, [words]);
 
   useEffect(() => {
     setGuessingWord(Array(chosenWord.length).fill("_"));
@@ -96,11 +110,6 @@ function ContextProvider({ children }) {
     }
   };
 
-  const chooseWord = (words) => {
-    const randNum = Math.floor(Math.random() * words.length);
-    return words[randNum];
-  };
-
   const createLetters = () => {
     return letters.map((letter, index) => {
       return (
@@ -128,7 +137,6 @@ function ContextProvider({ children }) {
         setGuesses,
         createLetters,
         chosenWord,
-        chooseWord,
         setChosenWord,
         setGuessingWord,
         winState,
@@ -137,6 +145,7 @@ function ContextProvider({ children }) {
         setResult,
         words,
         reset,
+        getWord,
       }}
     >
       {children}
