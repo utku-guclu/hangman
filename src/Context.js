@@ -12,7 +12,8 @@ function ContextProvider({ children }) {
   const [lives, setLives] = useState(7);
   const [guessingWord, setGuessingWord] = useState([]);
 
-  const wordAPI = process.env.REACT_APP_WORD_API_KEY;
+  // const wordAPI = process.env.REACT_APP_WORD_API_KEY;
+  const wordAPI = "xsssqika68we3i42asc34zq1mgxmt56i2g8wjskbhscutoox7";
 
   const letters = [
     "a",
