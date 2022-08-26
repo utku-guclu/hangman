@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../Context";
 
 function End() {
-  const { result, reset } = useContext(Context);
+  const { result } = useContext(Context);
 
   return (
     <div>
@@ -13,9 +13,7 @@ function End() {
         The word is ✏ {result.chosenWord.toUpperCase()}.
       </p>
       <Link style={{ textDecoration: "none" }} to="/">
-        <button onClick={reset} className="button hangman__trigger">
-          Main Menu
-        </button>
+        <button className="button hangman__trigger">Main Menu</button>
       </Link>
     </div>
   );

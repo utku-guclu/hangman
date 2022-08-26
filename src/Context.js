@@ -49,6 +49,10 @@ function ContextProvider({ children }) {
   const loseState = lives < 1;
   //
 
+  // const resetWords = () => {
+  //   setWords
+  // }
+
   const getWord = () => {
     fetch(`https://api.wordnik.com/v4/words.json/randomWord?api_key=${wordAPI}`)
       .then((res) => res.json())
@@ -121,10 +125,14 @@ function ContextProvider({ children }) {
   };
 
   const reset = () => {
+    setGuessingWord("LOADING".split(""));
+    getWord();
     setLives(7);
     setChosenWord(chooseWord(words)); // update after fetch
-    setGuessingWord(Array(chosenWord.length).fill("_"));
+    // setGuessingWord(Array(chosenWord.length).fill("_"));
     setGuesses([]);
+
+    console.log(words);
   };
 
   return (
