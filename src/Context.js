@@ -125,15 +125,13 @@ function ContextProvider({ children }) {
     });
   };
 
-  const reset = () => {
+  const reset = async () => {
     setGuessingWord("LOADING".split(""));
-    getWord();
-    setLives(7);
+    await getWord();
     setChosenWord(chooseWord(words)); // update after fetch
+    setLives(7);
     // setGuessingWord(Array(chosenWord.length).fill("_"));
     setGuesses([]);
-
-    console.log(words);
   };
 
   return (
