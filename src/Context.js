@@ -10,7 +10,7 @@ function ContextProvider({ children }) {
   const [chosenWord, setChosenWord] = useState([]);
   const [guesses, setGuesses] = useState([]);
   const [lives, setLives] = useState(7);
-  const [guessingWord, setGuessingWord] = useState([]);
+  const [guessingWord, setGuessingWord] = useState("LOADING".split(""));
 
   // const wordAPI = process.env.REACT_APP_WORD_API_KEY;
   const wordAPI = "xsssqika68we3i42asc34zq1mgxmt56i2g8wjskbhscutoox7";
@@ -54,21 +54,6 @@ function ContextProvider({ children }) {
   //   setWords
   // }
 
-  const getWord = () => {
-    fetch(`https://api.wordnik.com/v4/words.json/randomWord?api_key=${wordAPI}`)
-      .then((res) => res.json())
-      .then((data) => setWords([...words, data.word]));
-  };
-
-  useEffect(() => {
-    setChosenWord(chooseWord(words));
-  }, [words]);
-
-  const chooseWord = (words) => {
-    const randNum = Math.floor(Math.random() * words.length);
-    return words[randNum];
-  };
-
   useEffect(() => {
     const finalResult = (_) => {
       if (winState) {
@@ -80,8 +65,23 @@ function ContextProvider({ children }) {
   }, [winState, loseState, chosenWord, setResult]);
 
   useEffect(() => {
+    setChosenWord(chooseWord(words)); // update after fetch
+  }, [words]);
+
+  useEffect(() => {
     setGuessingWord(Array(chosenWord.length).fill("_"));
   }, [chosenWord]);
+
+  const getWord = () => {
+    fetch(`https://api.wordnik.com/v4/words.json/randomWord?api_key=${wordAPI}`)
+      .then((res) => res.json())
+      .then((data) => setWords([...words, data.word]));
+  };
+
+  const chooseWord = (words) => {
+    const randNum = Math.floor(Math.random() * words.length);
+    return words[randNum];
+  };
 
   const updateGuessingWord = (letter) => {
     chosenWord.split("").forEach((item, index) => {
@@ -125,13 +125,11 @@ function ContextProvider({ children }) {
     });
   };
 
-  const reset = async () => {
-    setGuessingWord("LOADING".split(""));
-    await getWord();
-    setChosenWord(chooseWord(words)); // update after fetch
+  const reset = () => {
     setLives(7);
-    // setGuessingWord(Array(chosenWord.length).fill("_"));
     setGuesses([]);
+    getWord();
+    setGuessingWord(Array(chosenWord.length).fill("_"));
   };
 
   return (
